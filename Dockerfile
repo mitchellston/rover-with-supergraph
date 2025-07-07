@@ -21,6 +21,6 @@ RUN echo -e "federation_version: =2.9.0\nsubgraphs:\n  test:\n    routing_url: h
     echo -e "type Query {\nhello: String\n}" > /test.graphql;\
     cd /;\
     export APOLLO_ELV2_LICENSE="accept";\
-    /root/.rover/bin/rover supergraph compose --config /rover-conf.yml > superschema.graphql
+    /root/.rover/bin/rover supergraph compose --config /rover-conf.yml > superschema.graphql || true
 
 ENTRYPOINT [ "/root/.rover/bin/rover" ]
