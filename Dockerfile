@@ -9,10 +9,6 @@ ARG version
 RUN apt update && apt install -y curl
 
 RUN curl -sSL https://rover.apollo.dev/nix/${version} | sh
-RUN echo -e "federation_version: =2.9.0\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
-    echo -e "type Query {\nhello: String\n}" > /test.grapqhl;\
-    cd /;\
-    rover supergraph compose --config /rover-conf.yml > superschema.graphql
 
 FROM debian:stable-slim AS runner
 
@@ -21,5 +17,9 @@ ENV PATH="/root/.rover/bin:${PATH}"
 
 # We also need ca-certificates to trust certs
 RUN apt update && apt install -y ca-certificates && rm -rf /var/lib/apt/lists/* && apt-get clean
+RUN echo -e "federation_version: =2.9.0\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
+    echo -e "type Query {\nhello: String\n}" > /test.grapqhl;\
+    cd /;\
+    /root/.rover/bin/rover supergraph compose --config /rover-conf.yml > superschema.graphql
 
 ENTRYPOINT [ "/root/.rover/bin/rover" ]
