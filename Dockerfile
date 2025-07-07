@@ -9,7 +9,7 @@ ARG version
 RUN apt update && apt install -y curl
 
 RUN curl -sSL https://rover.apollo.dev/nix/${version} | sh
-RUN curl -sSL https://github.com/apollographql/federation-rs/releases/download/supergraph%40${version}/supergraph-${version}-x86_64-unknown-linux-gnu.tar.gz | tar -xz -C /; \
+RUN curl -sSL https://rover.apollo.dev/tar/supergraph/x86_64-unknown-linux-gnu/${version} | tar -xz -C /; \
     mv /dist/supergraph /root/.rover/bin/supergraph-${version}
 
 FROM debian:stable-slim AS runner
