@@ -71,5 +71,5 @@ jobs:
           # add 'v' back in to the version again as the rover install command expects it
           build-args: |
             version=v${{ steps.rover-version.outputs.version }}
-            version_supergraph=v${{ steps.supergraph-version.outputs.version_supergraph }}
+            version_supergraph=${{ steps.supergraph-version.outputs.version_supergraph }}
           tags: ${{ steps.docker-image-meta-data.outputs.tags}}
