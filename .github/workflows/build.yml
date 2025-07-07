@@ -45,7 +45,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            name=worksome/rover,enable=true
+            name=mitchellston/rover-with-supergraph,enable=true
           tags: |
             type=raw,value=${{ steps.rover-version.outputs.VERSION }},enable=true
             type=raw,value=latest,enable=${{ (steps.rover-version.outputs.NON_PRERELEASE == 'true') }}
