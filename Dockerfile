@@ -9,8 +9,10 @@ ARG version
 RUN apt update && apt install -y curl
 
 RUN curl -sSL https://rover.apollo.dev/nix/${version} | sh
-RUN curl -sSL https://rover.apollo.dev/tar/supergraph/x86_64-unknown-linux-gnu/${version} | tar -xz -C /; \
-    mv /dist/supergraph /root/.rover/bin/supergraph-${version}
+RUN echo -e "federation_version: =2.9.0\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
+    echo -e "type Query {\nhello: String\n}" > /test.grapqhl;\
+    cd /;\
+    rover supergraph compose --config /rover-conf.yml > superschema.graphql
 
 FROM debian:stable-slim AS runner
 
