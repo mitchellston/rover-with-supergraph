@@ -19,7 +19,7 @@ ENV PATH="/root/.rover/bin:${PATH}"
 
 # We also need ca-certificates to trust certs
 RUN apt update && apt install -y ca-certificates && rm -rf /var/lib/apt/lists/* && apt-get clean
-RUN echo -e "federation_version: =$version_supergraph\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
+RUN echo -e "federation_version: =${version_supergraph}\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
     echo -e "type Query {\nhello: String\n}" > /test.graphql;\
     cd /;\
     export APOLLO_ELV2_LICENSE="accept";\
