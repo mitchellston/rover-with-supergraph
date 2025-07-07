@@ -20,6 +20,7 @@ RUN apt update && apt install -y ca-certificates && rm -rf /var/lib/apt/lists/* 
 RUN echo -e "federation_version: =2.9.0\nsubgraphs:\n  test:\n    routing_url: http://test:4000/\n    schema:\n      file: ./test.graphql" > /rover-conf.yml; \
     echo -e "type Query {\nhello: String\n}" > /test.graphql;\
     cd /;\
+    export APOLLO_ELV2_LICENSE="accept";\
     /root/.rover/bin/rover supergraph compose --config /rover-conf.yml > superschema.graphql
 
 ENTRYPOINT [ "/root/.rover/bin/rover" ]
