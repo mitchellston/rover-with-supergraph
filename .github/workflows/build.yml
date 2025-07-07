@@ -59,7 +59,7 @@ jobs:
             name=mitchellston/rover-with-supergraph,enable=true
           tags: |
             type=raw,value=${{ steps.rover-version.outputs.VERSION }},enable=true
-            type=raw,value=${{ steps.rover-version.outputs.VERSION }}-supergraph${{ steps.rover-version.outputs.VERSION_SUPERGRAPH }},enable=true
+            type=raw,value=${{ steps.rover-version.outputs.VERSION }}-supergraph${{ steps.supergraph-version.outputs.VERSION_SUPERGRAPH }},enable=true
             type=raw,value=latest,enable=${{ (steps.rover-version.outputs.NON_PRERELEASE == 'true') }}
 
       - name: Build and push
