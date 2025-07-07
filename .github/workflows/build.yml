@@ -28,6 +28,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get version supergraph
+        id: supergraph-version
+        # release version are prefixed with 'v' in the project
+        run: |
+          VERSION_SUPERGRAPH="$(gh release list -R apollographql/federation-rs -L 1 | cut -f1 | cut -c2-)"
+          echo "Latest supergraph version is $VERSION_SUPERGRAPH"
+          echo "VERSION_SUPERGRAPH=$VERSION_SUPERGRAPH" >> $GITHUB_OUTPUT
+          if $(echo $VERSION_SUPERGRAPH | grep -Pq '^([1-9]\d*|0)(\.(([1-9]\d*)|0)){2}$'); then echo "NON_PRERELEASE=true" >> $GITHUB_OUTPUT; fi;
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -48,6 +59,7 @@ jobs:
             name=mitchellston/rover-with-supergraph,enable=true
           tags: |
             type=raw,value=${{ steps.rover-version.outputs.VERSION }},enable=true
+            type=raw,value=${{ steps.rover-version.outputs.VERSION }}-supergraph${{ steps.rover-version.outputs.VERSION_SUPERGRAPH }},enable=true
             type=raw,value=latest,enable=${{ (steps.rover-version.outputs.NON_PRERELEASE == 'true') }}
 
       - name: Build and push
@@ -57,5 +69,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           # add 'v' back in to the version again as the rover install command expects it
-          build-args: version=v${{ steps.rover-version.outputs.version }}
+          build-args: version=v${{ steps.rover-version.outputs.version }},version_supergraph=v${{ steps.supergraph-version.outputs.version_supergraph }}
           tags: ${{ steps.docker-image-meta-data.outputs.tags}}
