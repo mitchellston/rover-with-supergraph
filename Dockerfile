@@ -1,9 +1,11 @@
 ARG version
+ARG version_supergraph
 
 # We would rather use Alpine, but we want ARM64 and misses
 # aarch64 musl binaries from the Rover project.
 FROM debian:stable-slim AS installer
 ARG version
+ARG version_supergraph
 
 # install script needs curl or wget
 RUN apt update && apt install -y curl
