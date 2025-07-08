@@ -32,7 +32,7 @@ jobs:
         id: supergraph-version
         # release version are prefixed with 'v' in the project
         run: |
-          VERSION_SUPERGRAPH="$(gh release list -R apollographql/federation-rs -L 1 | cut -f1 | cut -c2-)"
+          VERSION_SUPERGRAPH="$(gh release list -R apollographql/federation-rs -L 1 | sed -n 's/.*@v\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')"
           echo "Latest supergraph version is $VERSION_SUPERGRAPH"
           echo "VERSION_SUPERGRAPH=$VERSION_SUPERGRAPH" >> $GITHUB_OUTPUT
           if $(echo $VERSION_SUPERGRAPH | grep -Pq '^([1-9]\d*|0)(\.(([1-9]\d*)|0)){2}$'); then echo "NON_PRERELEASE=true" >> $GITHUB_OUTPUT; fi;
